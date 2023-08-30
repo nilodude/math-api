@@ -52,7 +52,7 @@ class Flama:
                 for bit in range(1,8):
                     binString += str(byte[bit])
                 
-                # hexByte = "B"+str(int(binString,2))   # bin
+                # hexByte = "B"+str(binString)   # bin
                 # hexByte = str(hex(int(binString,2)))    # hex
                 hexByte = str(int(binString,2))         # dec
                 
