@@ -19,7 +19,7 @@ def read_root():
 @app.get("/flama")
 def getFlama(numFrames: int):
     res=flama.readFlama(numFrames)
-    return {"message": "video read successfully", "data":res}
+    return {"message": "video processed successfully", "data":res}
 
 
 
