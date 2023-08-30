@@ -14,6 +14,7 @@ class Flama:
         total_frames = flama.get(cv2.CAP_PROP_FRAME_COUNT)
         height = flama.get(cv2.CAP_PROP_FRAME_HEIGHT)
         width = flama.get(cv2.CAP_PROP_FRAME_WIDTH)
+       
         print(f"Frame Per second: {video_fps } \nTotal Frames: {total_frames} \n Height: {height} \nWidth: {width}")
         
         videoHeight = videoHeight2
@@ -26,7 +27,7 @@ class Flama:
               
         frames = []
 
-        while True:
+        while len(frames) < numFrames:
             ret, frame = flama.read()
             
             if not ret:
@@ -36,11 +37,32 @@ class Flama:
 
             cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
 
-            ret,bina = cv2.threshold(cropped,200,255,cv2.THRESH_BINARY)    
+            resized = cv2.resize(cropped, (8, 16), interpolation = cv2.INTER_AREA)
 
-            cv2.imshow("flamita",bina)    
+            ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
+
+            cv2.imshow("flamita",resized)    
             
-            frames.append(frame)
+            
+            print("{", end="")
+            for row in range(1,16):
+                byte = bina[row]
+                binString = ""
+                
+                for bit in range(1,8):
+                    binString += str(byte[bit])
+                
+                # hexByte = "B"+str(int(binString,2))   # bin
+                # hexByte = str(hex(int(binString,2)))    # hex
+                hexByte = str(int(binString,2))         # dec
+                
+                if(row == 15):
+                    print(hexByte, end="")
+                else:
+                    print(hexByte+",", end="")
+                
+            print("},")
+            frames.append(bina)
 
             if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
                 break
@@ -51,7 +73,7 @@ class Flama:
         flama.release()
         cv2.destroyAllWindows()
 
-        return {"fps": video_fps[0], "height":height, "width": width}
+        return {"frames_read":numFrames, "total_frames":total_frames,"fps": video_fps[0], "height":height, "width": width}
 
 
 
