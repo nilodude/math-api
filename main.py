@@ -10,7 +10,7 @@ flama = Flama()
 def read_root():
     return {"Hello": "World"}
 
-@app.getFlama("/flama")
+@app.get("/flama")
 def getFlama(numFrames):
     return flama.readFlama(numFrames)
 

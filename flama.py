@@ -3,7 +3,7 @@ import cv2
 class Flama:
 
     def readFlama(self):
-        flama = cv2.VideoCapture('C:\Users\alfon\Downloads\candle2.mp4')
+        flama = cv2.VideoCapture('C:\\Users\\alfon\\Downloads\\candle2.mp4')
         video_fps = flama.get(cv2.CAP_PROP_FPS),
         total_frames = flama.get(cv2.CAP_PROP_FRAME_COUNT)
         height = flama.get(cv2.CAP_PROP_FRAME_HEIGHT)
