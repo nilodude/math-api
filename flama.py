@@ -26,8 +26,11 @@ class Flama:
         cropEndY = cropStartY+videoHeight
               
         frames = []
+        
+        hexFrames = []
 
         while len(frames) < numFrames:
+            hexFrame = ""
             ret, frame = flama.read()
             
             if not ret:
@@ -42,8 +45,7 @@ class Flama:
             ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
 
             cv2.imshow("flamita",resized)    
-            
-            
+                        
             print("{", end="")
             for row in range(1,16):
                 byte = bina[row]
@@ -54,26 +56,36 @@ class Flama:
                 
                 # hexByte = "B"+str(binString)   # bin
                 # hexByte = str(hex(int(binString,2)))    # hex
-                hexByte = str(int(binString,2))         # dec
+                hexByte = int(binString,2)         # dec
                 
                 if(row == 15):
-                    print(hexByte, end="")
+                    print(str(hexByte), end="")
+                    hexFrame += str(hexByte)
                 else:
-                    print(hexByte+",", end="")
+                    print(str(hexByte)+",", end="")
+                    hexFrame += str(hexByte)+","
                 
             print("},")
-            frames.append(bina)
+            
+            # frames.append(bina)
+            hexFrames.append(hexFrame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
                 break
 
-        video = np.stack(frames, axis=0)
-
+        # video = np.stack(frames, axis=0)
+        
         # release and destroy windows
         flama.release()
         cv2.destroyAllWindows()
 
-        return {"frames_read":numFrames, "total_frames":total_frames,"fps": video_fps[0], "height":height, "width": width}
+        return {
+            "frames_read":numFrames,
+            "total_frames":total_frames,
+            "fps": video_fps[0],
+            "height":height,
+            "width": width,
+            "bytes": hexFrames}
 
 
 
