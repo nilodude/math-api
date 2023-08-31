@@ -84,11 +84,12 @@ class Flama:
         cv2.destroyAllWindows()
 
         return {
-            "frames_read":numFrames,
-            "total_frames":total_frames,
-            "fps": video_fps[0],
-            "height":height,
-            "width": width,
+            # "message": "video processed successfully",
+            # "frames_read":numFrames,
+            # "total_frames":total_frames,
+            # "fps": video_fps[0],
+            # "height":height,
+            # "width": width,
             "bytes": hexFrames}
 
 
