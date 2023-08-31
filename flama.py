@@ -29,8 +29,9 @@ class Flama:
         
         hexFrames = []
 
-        while len(frames) < numFrames:
-            hexFrame = ""
+        while len(hexFrames) < numFrames:
+            hexFrame = []
+
             ret, frame = flama.read()
             
             if not ret:
@@ -40,30 +41,33 @@ class Flama:
 
             cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
 
-            resized = cv2.resize(cropped, (8, 16), interpolation = cv2.INTER_AREA)
+            resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST)
 
             ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
 
             cv2.imshow("flamita",resized)    
                         
             print("{", end="")
-            for row in range(1,16):
+            for row in range(1,17):
+                
                 byte = bina[row]
                 binString = ""
                 
-                for bit in range(1,8):
+                for bit in range(1,9):
                     binString += str(byte[bit])
                 
                 # hexByte = "B"+str(binString)   # bin
                 # hexByte = str(hex(int(binString,2)))    # hex
                 hexByte = int(binString,2)         # dec
                 
+                hexFrame.append(hexByte)
+                
                 if(row == 15):
                     print(str(hexByte), end="")
-                    hexFrame += str(hexByte)
+                    # hexFrame += str(hexByte) 
                 else:
                     print(str(hexByte)+",", end="")
-                    hexFrame += str(hexByte)+","
+                    # hexFrame += str(hexByte)+","
                 
             print("},")
             
