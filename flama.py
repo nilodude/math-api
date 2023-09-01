@@ -3,7 +3,7 @@ import numpy as np
 
 class Flama:
 
-    def readFlama(self,numFrames):
+    def readFlama(self,numFrames ):
         
         cropStartX2 = 850
         cropStartY2= 400
@@ -21,12 +21,9 @@ class Flama:
        
         cropStartX = cropStartX2
         cropEndX = cropStartX+int(videoHeight/2)
-        
         cropStartY = cropStartY2
         cropEndY = cropStartY+videoHeight
-              
-        frames = []
-        
+                      
         hexFrames = []
 
         while len(hexFrames) < numFrames:
@@ -38,59 +35,35 @@ class Flama:
                 break # break if no next frame
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
             cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
-
             resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST)
-
             ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
-
-            cv2.imshow("flamita",resized)    
                         
             print("{", end="")
+
             for row in range(1,17):
-                
-                byte = bina[row]
                 binString = ""
+                byte = bina[row]
                 
                 for bit in range(1,9):
                     binString += str(byte[bit])
                 
-                # hexByte = "B"+str(binString)   # bin
-                # hexByte = str(hex(int(binString,2)))    # hex
-                hexByte = int(binString,2)         # dec
-                
+                hexByte = int(binString,2)
                 hexFrame.append(hexByte)
                 
-                if(row == 15):
+                if(row == 16):
                     print(str(hexByte), end="")
-                    # hexFrame += str(hexByte) 
                 else:
                     print(str(hexByte)+",", end="")
-                    # hexFrame += str(hexByte)+","
                 
             print("},")
             
-            # frames.append(bina)
             hexFrames.append(hexFrame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
                 break
-
-        # video = np.stack(frames, axis=0)
         
-        # release and destroy windows
         flama.release()
         cv2.destroyAllWindows()
 
-        return {
-            # "message": "video processed successfully",
-            # "frames_read":numFrames,
-            # "total_frames":total_frames,
-            # "fps": video_fps[0],
-            # "height":height,
-            # "width": width,
-            "bytes": hexFrames}
-
-
-
+        return {"bytes": hexFrames}
