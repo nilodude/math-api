@@ -28,7 +28,7 @@ class Flama:
         
         frameCount = 1
 
-        while len(hexFrames) < numFrames + 80:
+        while len(hexFrames) < numFrames:
             hexFrame = []
 
             ret, frame = flama.read()
@@ -51,14 +51,14 @@ class Flama:
                     for bit in range(1,9):
                         binString += str(byte[bit])
                 
-                    hexByte = "B"+str(binString)
-                    # hexByte = int(binString,2)
+                    binByte = "B"+str(binString)
+                    hexByte = int(binString,2)
                     hexFrame.append(hexByte)
                 
                     if(row == 16):
-                        print(str(hexByte), end="")
+                        print(str(binByte), end="")
                     else:
-                        print(str(hexByte)+",", end="")
+                        print(str(binByte)+",", end="")
                 
                 print("},")
             
