@@ -36,7 +36,7 @@ class Flama:
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
-            resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST)
+            resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST_EXACT)
             ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
                         
             print("{", end="")
