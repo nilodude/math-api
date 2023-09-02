@@ -25,43 +25,49 @@ class Flama:
         cropEndY = cropStartY+videoHeight
                       
         hexFrames = []
+        
+        frameCount = 1
 
-        while len(hexFrames) < numFrames:
+        while len(hexFrames) < numFrames + 80:
             hexFrame = []
 
             ret, frame = flama.read()
             
             if not ret:
                 break # break if no next frame
-
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
-            resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST_EXACT)
-            ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
-                        
-            print("{", end="")
-
-            for row in range(1,17):
-                binString = ""
-                byte = bina[row]
-                
-                for bit in range(1,9):
-                    binString += str(byte[bit])
-                
-                hexByte = int(binString,2)
-                hexFrame.append(hexByte)
-                
-                if(row == 16):
-                    print(str(hexByte), end="")
-                else:
-                    print(str(hexByte)+",", end="")
-                
-            print("},")
             
-            hexFrames.append(hexFrame)
+            if(frameCount >= 80):
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                cropped = gray[cropStartY:cropEndY,cropStartX:cropEndX].copy()
+                resized = cv2.resize(cropped, (9, 17), interpolation = cv2.INTER_NEAREST_EXACT)
+                ret,bina = cv2.threshold(resized,200,1,cv2.THRESH_BINARY)
+                        
+                print("{", end="")
 
-            if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
-                break
+                for row in range(1,17):
+                    binString = ""
+                    byte = bina[row]
+                
+                    for bit in range(1,9):
+                        binString += str(byte[bit])
+                
+                    hexByte = "B"+str(binString)
+                    # hexByte = int(binString,2)
+                    hexFrame.append(hexByte)
+                
+                    if(row == 16):
+                        print(str(hexByte), end="")
+                    else:
+                        print(str(hexByte)+",", end="")
+                
+                print("},")
+            
+                hexFrames.append(hexFrame)
+
+                if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
+                    break
+            
+            frameCount+=1
         
         flama.release()
         cv2.destroyAllWindows()
