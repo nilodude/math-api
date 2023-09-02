@@ -1,0 +1,1 @@
+hay que añadir/quitar la regla a la NAT en el router para habilitar/deshabilitar peticiones al servidor en el 8080 (o el que le ponga)

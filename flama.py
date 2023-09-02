@@ -66,4 +66,4 @@ class Flama:
         flama.release()
         cv2.destroyAllWindows()
 
-        return {"bytes": hexFrames}
+        return hexFrames
