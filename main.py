@@ -13,6 +13,9 @@ app.add_middleware(
 )
 flama = Flama()
 
+global numFrames
+numFrames =270
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -24,7 +27,12 @@ def getFlama(numFrames: int):
 
 @app.get("/numFrames")
 def getNumFrames():
-    return 30
+    return numFrames
 
+@app.get("/setNumFrames")
+def setNumFrames(val: int):
+    global numFrames
+    numFrames = val
+    return "numFrames updated successfully"
 
 
