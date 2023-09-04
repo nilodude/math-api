@@ -70,6 +70,5 @@ class Flama:
             frameCount+=1
         
         flama.release()
-        cv2.destroyAllWindows()
-
+        
         return hexFrames
