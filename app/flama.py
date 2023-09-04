@@ -9,7 +9,8 @@ class Flama:
         cropStartY2= 400
         videoHeight2 = 410
 
-        flama = cv2.VideoCapture('C:\\Users\\alfon\\Downloads\\candle2.mp4')
+        # flama = cv2.VideoCapture('C:\\Users\\alfon\\Downloads\\candle2.mp4')
+        flama = cv2.VideoCapture('/code/candle2.mp4')
         video_fps = flama.get(cv2.CAP_PROP_FPS),
         total_frames = flama.get(cv2.CAP_PROP_FRAME_COUNT)
         height = flama.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -63,9 +64,6 @@ class Flama:
                 print("},")
             
                 hexFrames.append(hexFrame)
-
-                if cv2.waitKey(1) & 0xFF == ord('q'): # on press of q break
-                    break
             
             frameCount+=1
         
