@@ -14,7 +14,7 @@ app.add_middleware(
 flama = Flama()
 
 global numFrames
-numFrames =270
+numFrames =290
 
 @app.get("/")
 def read_root():

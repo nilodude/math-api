@@ -1,0 +1,2 @@
+docker build -t flamapi .
+docker run -d --name flamapi -p 8080:8080 -v C:/Users/alfon/Downloads/candle2.mp4:/code/candle2.mp4 flamapi
